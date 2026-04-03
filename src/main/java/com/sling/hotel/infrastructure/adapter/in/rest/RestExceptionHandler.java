@@ -15,7 +15,9 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(SearchNotFoundException.class)
     public ProblemDetail handleNotFound(SearchNotFoundException ex) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        var problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problem.setTitle("Search not found");
+        return problem;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -23,16 +25,22 @@ public class RestExceptionHandler {
         var errors = ex.getBindingResult().getFieldErrors().stream()
                 .map(e -> String.format("%s: %s", e.getField(), e.getDefaultMessage()))
                 .collect(Collectors.joining(", "));
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, errors);
+        var problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, errors);
+        problem.setTitle("Validation error");
+        return problem;
     }
 
     @ExceptionHandler(InvalidSearchException.class)
     public ProblemDetail handleInvalidSearch(InvalidSearchException ex) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        var problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problem.setTitle("Invalid search");
+        return problem;
     }
 
     @ExceptionHandler(DateTimeParseException.class)
     public ProblemDetail handleDateParse(DateTimeParseException ex) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid date format, expected dd/MM/yyyy");
+        var problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid date format, expected dd/MM/yyyy");
+        problem.setTitle("Invalid date format");
+        return problem;
     }
 }
