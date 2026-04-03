@@ -1,11 +1,15 @@
 package com.sling.hotel.infrastructure.adapter.in.rest;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 public record SearchRequest(
-        String hotelId,
-        String checkIn,
-        String checkOut,
-        List<Integer> ages
+        @NotBlank String hotelId,
+        @NotBlank String checkIn,
+        @NotBlank String checkOut,
+        @NotEmpty List<@NotNull Integer> ages
 ) {
 }

@@ -4,6 +4,7 @@ import com.sling.hotel.domain.model.HotelSearch;
 import com.sling.hotel.domain.model.SearchCount;
 import com.sling.hotel.domain.port.in.CountUseCase;
 import com.sling.hotel.domain.port.in.SearchUseCase;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,12 +31,15 @@ public class SearchController {
 
     @PostMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public SearchResponse search(@RequestBody SearchRequest request) {
-        var hotelSearch = new HotelSearch(
-                request.hotelId(),
-                LocalDate.parse(request.checkIn(), DATE_FORMAT),
-                LocalDate.parse(request.checkOut(), DATE_FORMAT),
-                request.ages());
+    public SearchResponse search(@Valid @RequestBody SearchRequest request) {
+        var checkIn = LocalDate.parse(request.checkIn(), DATE_FORMAT);
+        var checkOut = LocalDate.parse(request.checkOut(), DATE_FORMAT);
+
+        if (!checkIn.isBefore(checkOut)) {
+            throw new InvalidSearchException("checkIn must be before checkOut");
+        }
+
+        var hotelSearch = new HotelSearch(request.hotelId(), checkIn, checkOut, request.ages());
         var searchId = searchUseCase.search(hotelSearch);
         return new SearchResponse(searchId);
     }
