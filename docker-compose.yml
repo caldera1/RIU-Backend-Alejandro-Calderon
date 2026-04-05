@@ -8,11 +8,13 @@ services:
       SPRING_DATASOURCE_USERNAME: hotel
       SPRING_DATASOURCE_PASSWORD: hotel
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
         condition: service_healthy
+    restart: on-failure
 
   postgres:
     image: postgres:17-alpine
@@ -28,7 +30,8 @@ services:
       test: ["CMD-SHELL", "pg_isready -U hotel"]
       interval: 5s
       timeout: 3s
-      retries: 5
+      retries: 10
+      start_period: 10s
 
   kafka:
     image: apache/kafka-native:3.8.1
@@ -43,11 +46,13 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     healthcheck:
       test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 15s
 
 volumes:
   pgdata:
