@@ -17,6 +17,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -135,9 +136,5 @@ class SearchControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andReturn();
         return com.jayway.jsonpath.JsonPath.read(result.getResponse().getContentAsString(), "$.searchId").toString();
-    }
-
-    private static org.assertj.core.api.AbstractLongAssert<?> assertThat(long actual) {
-        return org.assertj.core.api.Assertions.assertThat(actual);
     }
 }
