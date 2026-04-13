@@ -38,7 +38,7 @@ public class SearchPersistenceAdapter implements SearchRepository {
     @Override
     public long countBySearchId(String searchId) {
         return jpaRepository.findFirstBySearchId(searchId)
-                .map(entity -> jpaRepository.countByHotelIdAndCheckInAndCheckOutAndAges(
+                .map(entity -> jpaRepository.countByParams(
                         entity.getHotelId(), entity.getCheckIn(), entity.getCheckOut(), entity.getAges()))
                 .orElse(0L);
     }

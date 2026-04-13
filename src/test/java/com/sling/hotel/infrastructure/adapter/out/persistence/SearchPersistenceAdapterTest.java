@@ -66,7 +66,7 @@ class SearchPersistenceAdapterTest {
     void countBySearchIdShouldCountMatchingSearches() {
         var entity = buildEntity("abc-123", "H1", "30,29");
         when(jpaRepository.findFirstBySearchId("abc-123")).thenReturn(Optional.of(entity));
-        when(jpaRepository.countByHotelIdAndCheckInAndCheckOutAndAges(
+        when(jpaRepository.countByParams(
                 "H1", LocalDate.of(2023, 12, 29), LocalDate.of(2023, 12, 31), "30,29"))
                 .thenReturn(3L);
 

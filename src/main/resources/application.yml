@@ -29,6 +29,8 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: com.sling.hotel.*
+        spring.json.value.default.type: com.sling.hotel.infrastructure.adapter.in.kafka.SearchEventDto
+        spring.json.use.type.headers: false
 
 server:
   port: 8080
