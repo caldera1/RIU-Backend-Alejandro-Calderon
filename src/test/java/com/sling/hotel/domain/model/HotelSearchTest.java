@@ -34,8 +34,8 @@ class HotelSearchTest {
     @Test
     void shouldReturnImmutableAgesList() {
         var search = new HotelSearch("H1", LocalDate.of(2023, 12, 29), LocalDate.of(2023, 12, 31), List.of(30, 29));
-
-        assertThatThrownBy(() -> search.ages().add(5))
+        var ages = search.ages();
+        assertThatThrownBy(() -> ages.add(5))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
 

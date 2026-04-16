@@ -86,8 +86,8 @@ class SearchControllerIntegrationTest {
                 """;
 
         var searchId1 = postSearchAndGetId(body);
-        var searchId2 = postSearchAndGetId(body);
-        var searchId3 = postSearchAndGetId(body);
+        postSearchAndGetId(body);
+        postSearchAndGetId(body);
 
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             assertThat(searchRepository.count()).isEqualTo(3);
