@@ -7,10 +7,10 @@ Servicio Spring Boot que gestiona búsquedas de disponibilidad hotelera. Recibe 
 - Java 21 con virtual threads
 - Spring Boot 3.4.4
 - Apache Kafka (KRaft)
-- PostgreSQL 17
 - JaCoCo (cobertura >= 80%)
 - Testcontainers + H2 para tests
 - Swagger / OpenAPI
+- PostgreSQL 17 (el challenge especifica Oracle; se usa PostgreSQL porque la capa de persistencia es agnóstica al motor via JPA/Hibernate, permitiendo migrar cambiando solo el driver y el dialect)
 
 ## Arquitectura
 
@@ -80,6 +80,8 @@ Devuelve cuántas búsquedas idénticas se realizaron. El orden de `ages` influy
 **Response (404):** si el `searchId` no existe.
 
 ## Ejecución con Docker
+
+**Nota sobre base de datos**: el challenge original especifica Oracle. Se optó por PostgreSQL por compatibilidad de entorno. La implementación JPA es completamente agnóstica al motor — migrar a Oracle requiere únicamente agregar el driver `ojdbc` en `pom.xml` y actualizar el dialect en `application.yml`.
 
 ```bash
 docker compose up --build
