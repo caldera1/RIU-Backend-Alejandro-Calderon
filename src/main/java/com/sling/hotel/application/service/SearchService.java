@@ -6,11 +6,9 @@ import com.sling.hotel.application.port.in.CountUseCase;
 import com.sling.hotel.application.port.in.SearchUseCase;
 import com.sling.hotel.domain.port.out.SearchEventPublisher;
 import com.sling.hotel.domain.port.out.SearchRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
 public class SearchService implements SearchUseCase, CountUseCase {
 
     private final SearchEventPublisher eventPublisher;
