@@ -7,6 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -45,5 +47,17 @@ class KafkaSearchProducerTest {
                 () -> assertThat(event.checkOut()).isEqualTo(LocalDate.of(2023, 12, 31)),
                 () -> assertThat(event.ages()).containsExactly(30, 29)
         );
+    }
+
+    @Test
+    void shouldLogErrorWhenPublishFails() {
+        var producer = new KafkaSearchProducer(kafkaTemplate, "test-topic");
+        var hotelSearch = new HotelSearch("H1", LocalDate.of(2023, 12, 29), LocalDate.of(2023, 12, 31), List.of(30, 29));
+        var future = new CompletableFuture<SendResult<String, SearchEvent>>();
+        future.completeExceptionally(new RuntimeException("Kafka error"));
+
+        when(kafkaTemplate.send(anyString(), anyString(), any())).thenReturn(future);
+
+        assertDoesNotThrow(() -> producer.publish("abc-123", hotelSearch));
     }
 }
