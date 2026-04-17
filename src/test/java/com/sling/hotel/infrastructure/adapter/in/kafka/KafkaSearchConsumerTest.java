@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -38,9 +39,11 @@ class KafkaSearchConsumerTest {
         verify(searchRepository).save(eq("abc-123"), captor.capture());
 
         var saved = captor.getValue();
-        assertThat(saved.hotelId()).isEqualTo("H1");
-        assertThat(saved.checkIn()).isEqualTo(LocalDate.of(2023, 12, 29));
-        assertThat(saved.checkOut()).isEqualTo(LocalDate.of(2023, 12, 31));
-        assertThat(saved.ages()).containsExactly(30, 29);
+        assertAll(
+                () -> assertThat(saved.hotelId()).isEqualTo("H1"),
+                () -> assertThat(saved.checkIn()).isEqualTo(LocalDate.of(2023, 12, 29)),
+                () -> assertThat(saved.checkOut()).isEqualTo(LocalDate.of(2023, 12, 31)),
+                () -> assertThat(saved.ages()).containsExactly(30, 29)
+        );
     }
 }

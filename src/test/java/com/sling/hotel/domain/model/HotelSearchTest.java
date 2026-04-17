@@ -8,6 +8,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class HotelSearchTest {
 
@@ -15,10 +16,12 @@ class HotelSearchTest {
     void shouldCreateWithCorrectFields() {
         var search = new HotelSearch("H1", LocalDate.of(2023, 12, 29), LocalDate.of(2023, 12, 31), List.of(30, 29));
 
-        assertThat(search.hotelId()).isEqualTo("H1");
-        assertThat(search.checkIn()).isEqualTo(LocalDate.of(2023, 12, 29));
-        assertThat(search.checkOut()).isEqualTo(LocalDate.of(2023, 12, 31));
-        assertThat(search.ages()).containsExactly(30, 29);
+        assertAll(
+                () -> assertThat(search.hotelId()).isEqualTo("H1"),
+                () -> assertThat(search.checkIn()).isEqualTo(LocalDate.of(2023, 12, 29)),
+                () -> assertThat(search.checkOut()).isEqualTo(LocalDate.of(2023, 12, 31)),
+                () -> assertThat(search.ages()).containsExactly(30, 29)
+        );
     }
 
     @Test
@@ -44,8 +47,10 @@ class HotelSearchTest {
         var search1 = new HotelSearch("H1", LocalDate.of(2023, 12, 29), LocalDate.of(2023, 12, 31), List.of(30, 29, 1));
         var search2 = new HotelSearch("H1", LocalDate.of(2023, 12, 29), LocalDate.of(2023, 12, 31), List.of(1, 29, 30));
 
-        assertThat(search1.ages()).containsExactly(30, 29, 1);
-        assertThat(search2.ages()).containsExactly(1, 29, 30);
-        assertThat(search1).isNotEqualTo(search2);
+        assertAll(
+                () -> assertThat(search1.ages()).containsExactly(30, 29, 1),
+                () -> assertThat(search2.ages()).containsExactly(1, 29, 30),
+                () -> assertThat(search1).isNotEqualTo(search2)
+        );
     }
 }

@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,9 +44,11 @@ class SearchServiceTest {
         var id1 = searchService.search(hotelSearch);
         var id2 = searchService.search(hotelSearch);
 
-        assertThat(id1).isNotBlank();
-        assertThat(id2).isNotBlank();
-        assertThat(id1).isNotEqualTo(id2);
+        assertAll(
+                () -> assertThat(id1).isNotBlank(),
+                () -> assertThat(id2).isNotBlank(),
+                () -> assertThat(id1).isNotEqualTo(id2)
+        );
     }
 
     @Test
@@ -67,9 +70,11 @@ class SearchServiceTest {
 
         var result = searchService.count("id-1");
 
-        assertThat(result.searchId()).isEqualTo("id-1");
-        assertThat(result.search()).isEqualTo(hotelSearch);
-        assertThat(result.count()).isEqualTo(3);
+        assertAll(
+                () -> assertThat(result.searchId()).isEqualTo("id-1"),
+                () -> assertThat(result.search()).isEqualTo(hotelSearch),
+                () -> assertThat(result.count()).isEqualTo(3)
+        );
     }
 
     @Test
