@@ -132,4 +132,14 @@ class SearchControllerTest {
         mockMvc.perform(get("/count").param("searchId", "unknown"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void postSearchShouldReturn400WhenAgesContainsNegativeValue() throws Exception {
+        var body = new SearchRequest("H1", "29/12/2023", "31/12/2023", List.of(-1, 30));
+
+        mockMvc.perform(post("/search")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isBadRequest());
+    }
 }

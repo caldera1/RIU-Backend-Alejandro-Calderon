@@ -1,5 +1,6 @@
 package com.sling.hotel.infrastructure.adapter.in.rest;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +11,6 @@ public record SearchRequest(
         @NotBlank String hotelId,
         @NotBlank String checkIn,
         @NotBlank String checkOut,
-        @NotEmpty List<@NotNull Integer> ages
+        @NotEmpty List<@NotNull @Min(0) Integer> ages
 ) {
 }
