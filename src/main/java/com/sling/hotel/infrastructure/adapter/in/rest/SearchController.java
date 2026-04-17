@@ -2,8 +2,8 @@ package com.sling.hotel.infrastructure.adapter.in.rest;
 
 import com.sling.hotel.domain.model.HotelSearch;
 import com.sling.hotel.domain.model.SearchCount;
-import com.sling.hotel.domain.port.in.CountUseCase;
-import com.sling.hotel.domain.port.in.SearchUseCase;
+import com.sling.hotel.application.port.in.CountUseCase;
+import com.sling.hotel.application.port.in.SearchUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

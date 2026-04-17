@@ -1,4 +1,4 @@
-package com.sling.hotel.domain.port.in;
+package com.sling.hotel.application.port.in;
 
 import com.sling.hotel.domain.model.HotelSearch;
 

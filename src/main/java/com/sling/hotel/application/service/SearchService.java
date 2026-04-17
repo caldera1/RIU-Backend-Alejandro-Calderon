@@ -2,8 +2,8 @@ package com.sling.hotel.application.service;
 
 import com.sling.hotel.domain.model.HotelSearch;
 import com.sling.hotel.domain.model.SearchCount;
-import com.sling.hotel.domain.port.in.CountUseCase;
-import com.sling.hotel.domain.port.in.SearchUseCase;
+import com.sling.hotel.application.port.in.CountUseCase;
+import com.sling.hotel.application.port.in.SearchUseCase;
 import com.sling.hotel.domain.port.out.SearchEventPublisher;
 import com.sling.hotel.domain.port.out.SearchRepository;
 import org.springframework.stereotype.Service;
